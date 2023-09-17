@@ -3,6 +3,8 @@ on: push
 jobs:
   test:
     runs-on: ubuntu-latest
+    env: 
+      working-directory: ./react
     steps:
       - name: "First: download the code for ubuntu server"
         uses: actions/checkout@v3
@@ -13,12 +15,12 @@ jobs:
         with:
           node-version: 18
       - name: Install dependencies
-        env: 
-          working-directory: ./react
+        working-directory: ${{env.working-directory}}
         run: |
           pwd
           npm ci
       - name: Run tests after install
+        working-directory: ${{env.working-directory}}
         run: |
           pwd
           npm test
