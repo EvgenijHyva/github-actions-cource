@@ -3,6 +3,8 @@ on: workflow_dispatch
 jobs:
   info:
     runs-on: ubuntu-20.04
+    env:
+      working-directory: ./react
     steps:
       - name: Output Github context
         run: |
