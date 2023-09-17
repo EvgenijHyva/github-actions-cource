@@ -7,9 +7,7 @@ jobs:
       working-directory: ./react
     steps:
       - name: Output Github context
-        run: |
-          pwd
-          echo ${{toJson(github)}}
+        run: echo ${{toJson(github)}}
       - name: Runner context
         run: echo ${{toJson(runner)}}
       - name: Job context
