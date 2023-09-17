@@ -1,0 +1,13 @@
+name: Outpit information
+on: workflow_dispatch
+jobs:
+  info:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Output Github context
+        run: |
+          echo ${{toJson(github)}}
+          echo ${{toJson(env)}}
+          echo ${{toJson(job)}}
+          echo ${{toJson(runner)}}
+          echo ${{toJson(secrets)}}
