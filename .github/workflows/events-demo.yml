@@ -1,5 +1,14 @@
-name: Test Project and Deploy
-on: workflow_dispatch
+name: Events Demo
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
+      - review_requested
+      - ready_for_review
+  workflow_dispatch:
 jobs:
   lint:
     runs-on: ubuntu-20.04
@@ -16,7 +25,8 @@ jobs:
       - name: Lint
         run: npm run lint
   test:
-    runs-on: ubuntu-latest
+    needs: lint
+    runs-on: ubuntu-20.04
     env:
       working-directory: ./react
     steps:
@@ -38,22 +48,3 @@ jobs:
         run: |
           pwd
           npm test
-  deploy:
-    needs: [test, lint]
-    runs-on: ubuntu-latest
-    env:
-      working-directory: ./react
-    defaults:
-      run:
-        working-directory: ${{env.working-directory}}
-    steps:
-      - name: Get code
-        uses: actions/checkout@v3
-      - name: Install dependencies
-        run: |
-          pwd
-          npm ci
-      - name: Build project
-        run: npm run build
-      - name: Deploy
-        run: echo "Deploying ..."
