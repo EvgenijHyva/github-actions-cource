@@ -1,5 +1,6 @@
 import MainContent from './components/MainContent';
 import logo from './assets/images/logo.png';
+import React from 'react';
 
 function App() {
   return (

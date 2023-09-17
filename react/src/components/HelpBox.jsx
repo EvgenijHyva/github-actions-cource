@@ -1,5 +1,7 @@
 import './HelpBox.css';
+import React from 'react';
 
+// eslint-disable-next-line react/prop-types
 function HelpBox({ title, text }) {
   return (
     <article className="help-box">
