@@ -8,8 +8,8 @@ jobs:
     steps:
       - name: Output Github context
         run: |
-          echo ${{toJson(github)}}
           pwd
+          echo ${{toJson(github)}}
       - name: Runner context
         run: echo ${{toJson(runner)}}
       - name: Job context
