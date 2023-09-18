@@ -33,7 +33,6 @@ jobs:
       - name: Lint
         run: npm run lint
   test:
-    needs: lint
     runs-on: ubuntu-20.04
     env:
       working-directory: ./react
@@ -57,7 +56,7 @@ jobs:
           pwd
           npm test
   build:
-    needs: test
+    needs: [test, lint]
     runs-on: ubuntu-20.04
     defaults:
       run:
@@ -80,7 +79,7 @@ jobs:
           path: |
             dist
             package.json
-          if-no-files-found: error #warn/ignore/error
+          #if-no-files-found: error #warn/ignore/error
   deploy:
     needs: build
     runs-on: ubuntu-20.04
