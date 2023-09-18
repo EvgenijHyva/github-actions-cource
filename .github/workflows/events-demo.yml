@@ -58,9 +58,11 @@ jobs:
   build:
     needs: [test, lint]
     runs-on: ubuntu-20.04
+    env:
+      working-directory: ./react
     defaults:
       run:
-        working-directory: ./react
+        working-directory: ${{env.working-directory}}
     steps:
       - name: "First: download the code for ubuntu server"
         uses: actions/checkout@v3
@@ -79,9 +81,9 @@ jobs:
         with:
           name: dist-build-files
           path: |
-            dist/*
-            package.json
-          #if-no-files-found: error #warn/ignore/error
+            ${{env.working-directory}}/dist
+            ${{env.working-directory}}/package.json
+          if-no-files-found: error #warn/ignore/error
   deploy:
     needs: build
     runs-on: ubuntu-20.04
