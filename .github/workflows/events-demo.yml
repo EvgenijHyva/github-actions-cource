@@ -71,13 +71,15 @@ jobs:
       - name: Build
         run: npm run build
       - name: check working directory
-        run: ls -la
+        run: |
+          pwd 
+          ls -la
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: dist-build-files
           path: |
-            dist
+            dist/*
             package.json
           #if-no-files-found: error #warn/ignore/error
   deploy:
