@@ -45,6 +45,8 @@ jobs:
     steps:
       - name: Download code
         uses: actions/checkout@v3
+      - name: Find cache folder
+        run: npm config get cache # should return **.npm
       - name: Cache dependencies bellow
         uses: actions/cache@v3
         with:
