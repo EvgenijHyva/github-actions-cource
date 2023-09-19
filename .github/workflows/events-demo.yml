@@ -104,5 +104,7 @@ jobs:
           ls -la
           ls -la dist
           echo ${{steps.download.outputs.download-path}}
+      - name: Output generated filename from previous build
+        run: echo "${{ needs.build.outputs.script-file }}"
       - name: Deploy
         run: echo "deploying placeholder..."
