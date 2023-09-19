@@ -1,0 +1,86 @@
+name: Cache workflow
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - main
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      code-location: ./react
+    defaults:
+      run:
+        working-directory: ${{ env.code-location }}
+    steps:
+      - name: Download code
+        uses: actions/checkout@v3
+      - name: Cache dependencies bellow
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm  ##### files in internal runner used by npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install Dependencies
+        run: npm ci
+      - name: Test
+        run: npm test
+  lint:
+    runs-on: ubuntu-latest
+    env:
+      code-location: ./react
+    defaults:
+      run:
+        working-directory: ${{ env.code-location }}
+    steps:
+      - name: Download code
+        uses: actions/checkout@v3
+      - name: Cache dependencies bellow
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm  ##### files in internal runner used by npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install Dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+  build:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    outputs:
+      generated-file: ${{steps.generated-file.outputs.script-file}}
+    env:
+      code-location: ./react
+    defaults:
+      run:
+        working-directory: ${{ env.code-location }}
+    steps:
+      - name: Download code
+        uses: actions/checkout@v3
+      - name: Cache dependencies bellow
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm  ##### files in internal runner used by npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install Dependencies
+        run: npm ci
+      - name: Build step
+        run: npm run build
+      - name: Get generated file
+        id: generated-file
+        run: |
+          find dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist-build-files
+          path: |
+            ${{env.code-location}}/dist
+          if-no-files-found: error
