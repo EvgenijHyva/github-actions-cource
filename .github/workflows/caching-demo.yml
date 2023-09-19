@@ -24,7 +24,6 @@ jobs:
         run: |
           pwd
           ls -la
-          cat ~/.npm
       - name: Cache dependencies bellow
         uses: actions/cache@v3
         with:
