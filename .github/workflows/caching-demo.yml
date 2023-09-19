@@ -61,7 +61,7 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     outputs:
-      generated-file: ${{steps.generated-file.outputs.script-file}}
+      generated-file: ${{steps.generated-file.outputs.generated-file}}
     env:
       code-location: ./react
     defaults:
@@ -83,11 +83,13 @@ jobs:
       - name: Get generated file
         id: generated-file
         run: |
-          find dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'
+          find dist/assets/*.js -type f -execdir echo 'generated-file={}' >> $GITHUB_OUTPUT ';'
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: dist-build-files
+          name: dist-build
           path: |
             ${{env.code-location}}/dist
           if-no-files-found: error
+      - name: Check files
+        run: ls -la
