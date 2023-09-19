@@ -58,6 +58,8 @@ jobs:
   build:
     needs: [test, lint]
     runs-on: ubuntu-20.04
+    outputs: # publishing output
+      script-file: ${{steps.publish-file.outputs.script-file}} # need an id!
     env:
       working-directory: ./react
     defaults:
@@ -72,6 +74,9 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+      - name: Get publishet JS file from build
+        id: publish-file
+        run: find dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';' # need also publish output...!
       - name: check working directory
         run: |
           pwd 
