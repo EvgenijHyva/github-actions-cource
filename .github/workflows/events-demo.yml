@@ -88,5 +88,14 @@ jobs:
     needs: build
     runs-on: ubuntu-20.04
     steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: dist-build-files
+          if_no_artifact_found: fail # "fail"/"warn"/"ignore"
+      - name: check working directory
+        run: |
+          pwd 
+          ls -la
       - name: Deploy
         run: echo "deploying placeholder..."
