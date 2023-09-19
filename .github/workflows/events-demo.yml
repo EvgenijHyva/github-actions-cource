@@ -90,12 +90,14 @@ jobs:
     steps:
       - name: Download build artifact
         uses: actions/download-artifact@v3
+        id: download
         with:
           name: dist-build-files
-          if_no_artifact_found: fail # "fail"/"warn"/"ignore"
       - name: check working directory
         run: |
           pwd 
           ls -la
+          ls -la dist
+          echo ${{steps.download.outputs.download-path}}
       - name: Deploy
         run: echo "deploying placeholder..."
