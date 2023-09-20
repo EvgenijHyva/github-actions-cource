@@ -12,6 +12,7 @@ on:
       - main
     paths-ignore:
       - playwright
+      - ".github/workflows/*"
   workflow_dispatch:
   push:
     branches:
