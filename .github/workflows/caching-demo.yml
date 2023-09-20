@@ -9,6 +9,8 @@ on:
       - opened
     branches:
       - main
+    paths-ignore:
+      - playwright
 jobs:
   lint:
     runs-on: ubuntu-latest

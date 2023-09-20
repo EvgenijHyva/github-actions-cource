@@ -10,6 +10,8 @@ on:
       - ready_for_review
     branches:
       - main
+    paths-ignore:
+      - playwright
   workflow_dispatch:
   push:
     branches:
