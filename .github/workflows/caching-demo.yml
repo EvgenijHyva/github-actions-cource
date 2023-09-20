@@ -13,6 +13,7 @@ on:
       - main
     paths-ignore:
       - playwright
+      - ".github/workflows/*"
 jobs:
   lint:
     runs-on: ubuntu-latest
