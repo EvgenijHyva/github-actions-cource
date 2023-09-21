@@ -3,15 +3,15 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - react
+    paths:
+      - playwright
   workflow_dispatch:
   pull_request:
     types:
       - opened
       - reopened
-    paths-ignore:
-      - react
+    paths:
+      - playwright
 env: # workflow env variables
   working_directory: ./playwright
   MONGODB_CLUSTER_NAME: cluster0.tihhnqc.mongodb.net
