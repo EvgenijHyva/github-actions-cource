@@ -14,20 +14,21 @@ on:
       - react
 env: # workflow env variables
   working_directory: ./playwright
-  MONGODB_DB_NAME: ${{ vars.MONGODB_DB_NAME }}
-  MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
-  MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
   MONGODB_CLUSTER_NAME: cluster0.tihhnqc.mongodb.net
   PORT: 8080
   TESTENV: Workflow level
 jobs:
   test:
+    environment: Testing
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ${{ env.working_directory }}
     env: # job only specific variables
       TESTENV: Job level
+      MONGODB_DB_NAME: ${{ vars.MONGODB_DB_NAME }}
+      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
     steps:
       - name: Get code
         uses: actions/checkout@v3
@@ -47,6 +48,11 @@ jobs:
           echo "TESTENV: ${{env.TESTENV}}"
   deploy:
     needs: test
+    environment: PROD
+    env:
+      MONGODB_DB_NAME: ${{ vars.MONGODB_DB_NAME }}
+      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
     runs-on: ubuntu-latest
     steps:
       - name: Output info
