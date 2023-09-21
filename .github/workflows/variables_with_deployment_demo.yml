@@ -1,0 +1,56 @@
+name: Deployment
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - react
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - reopened
+    paths-ignore:
+      - react
+env: # workflow env variables
+  working_directory: ./playwright
+  MONGODB_DB_NAME: ${{ vars.MONGODB_DB_NAME }}
+  MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+  MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+  MONGODB_CLUSTER_NAME: cluster0.tihhnqc.mongodb.net
+  PORT: 8080
+  TESTENV: Workflow level
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.working_directory }}
+    env: # job only specific variables
+      TESTENV: Job level
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-deps-${{ hashFiles('**/package-lick.json') }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Run server
+        run: npm run % npx wait-on http:/127:0.0.1:$PORT
+      - name: Run tests
+        run: npm test
+      - name: Output info
+        run: |
+          echo "TESTENV: ${{env.TESTENV}}"
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output info
+        run: |
+          ls -la
+          echo "TESTENV: ${{env.TESTENV}}"
+          echo "MONGODB_DB_NAME: $MONGODB_DB_NAME"
