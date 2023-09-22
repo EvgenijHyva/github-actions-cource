@@ -10,19 +10,15 @@ on:
       - ready_for_review
     branches:
       - main
-    paths-ignore:
-      - playwright
-      - ".github/workflows/*"
-      - react_new
+    paths:
+      - react
   workflow_dispatch:
   push:
     branches:
       - main
       - feat/**
-    paths-ignore:
-      - ".github/workflows/*"
-      - playwright
-      - react_new
+    paths:
+      - react
 jobs:
   lint:
     runs-on: ubuntu-20.04
