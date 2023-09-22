@@ -102,3 +102,21 @@ jobs:
           pwd
       - name: Deployment
         run: echo "deployment placeholder..."
+  report:
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+      - name: Output github info
+        run: |
+          echo "Something went wrong"
+          echo "${{ github }}"
+      - name: Upload report
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.test-artifact }}
+      - name: Output content
+        run: |
+          ls -la
+          pwd
+      - name: Output report info
+        run: echo test.json
