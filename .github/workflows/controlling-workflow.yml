@@ -106,6 +106,9 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: failure()
+    defaults:
+      run:
+        working-directory: .
     steps:
       - name: Output github info
         run: |
