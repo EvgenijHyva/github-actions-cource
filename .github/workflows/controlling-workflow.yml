@@ -4,8 +4,7 @@ on:
     branches:
       - main
       - dev
-    paths:
-      - react_new
+    paths: react_new
   workflow_dispatch:
 env: # workflow env variables
   working_directory: ./react_new
