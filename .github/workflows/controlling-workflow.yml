@@ -4,9 +4,8 @@ on:
     branches:
       - main
       - dev
-    paths-ignore:
-      - react
-      - playwright
+    paths:
+      - react_new
   workflow_dispatch:
 env: # workflow env variables
   working_directory: ./react_new
@@ -45,13 +44,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Test
+        id: run-tests
         run: npm run test
       - name: Output content
         run: |
           ls -la
           pwd
-      - name: Upload test report
+      - name: Upload test report # controll with if condition
         uses: actions/upload-artifact@v3
+        if: ${{ steps.run-tests.outcome == 'failure' }}
         with:
           name: ${{env.test-artifact}}
           path: ${{env.working_directory}}/test.json
