@@ -96,6 +96,8 @@ jobs:
         with:
           name: ${{ env.artifact-name }}
       - name: Output content
-        run: pwd
+        run: |
+          ls -la
+          pwd
       - name: Deployment
         run: echo "deployment placeholder..."
