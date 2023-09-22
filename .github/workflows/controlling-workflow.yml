@@ -48,6 +48,7 @@ jobs:
         id: run-tests
         run: npm run test
       - name: Output content
+        if: failure() || success()
         run: |
           ls -la
           pwd
