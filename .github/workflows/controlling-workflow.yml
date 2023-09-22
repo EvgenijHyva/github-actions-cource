@@ -5,7 +5,8 @@ on:
       - main
       - dev
     paths:
-      - 'react_new/**'
+      - "react_new/**"
+      - ".github/workflows/controlling-workflow.yml"
   workflow_dispatch:
 env: # workflow env variables
   working_directory: react_new
@@ -52,7 +53,7 @@ jobs:
           pwd
       - name: Upload test report # controll with if condition
         uses: actions/upload-artifact@v3
-        if: steps.run-tests.outcome == 'failure'
+        if: failure() && steps.run-tests.outcome == 'failure'
         with:
           name: ${{env.test-artifact}}
           path: ${{env.working_directory}}/test.json
