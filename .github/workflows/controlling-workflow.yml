@@ -103,6 +103,7 @@ jobs:
       - name: Deployment
         run: echo "deployment placeholder..."
   report:
+    needs: test
     runs-on: ubuntu-latest
     if: failure()
     steps:
