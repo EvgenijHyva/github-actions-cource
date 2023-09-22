@@ -52,7 +52,7 @@ jobs:
           pwd
       - name: Upload test report # controll with if condition
         uses: actions/upload-artifact@v3
-        if: ${{ steps.run-tests.outcome == 'failure' }}
+        if: steps.run-tests.outcome == 'failure'
         with:
           name: ${{env.test-artifact}}
           path: ${{env.working_directory}}/test.json
