@@ -8,7 +8,7 @@ on:
       - react_new/**
   workflow_dispatch:
 env: # workflow env variables
-  working_directory: ./react_new
+  working_directory: react_new
   artifact-name: Build artifact
   test-artifact: Tests report
 defaults:
