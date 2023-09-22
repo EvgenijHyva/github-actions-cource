@@ -113,7 +113,7 @@ jobs:
       - name: Output github info
         run: |
           echo "Something went wrong"
-          echo "${{ github }}"
+          echo "${{ toJson(github) }}"
       - name: Upload report
         uses: actions/download-artifact@v3
         with:
@@ -123,4 +123,4 @@ jobs:
           ls -la
           pwd
       - name: Output report info
-        run: echo test.json
+        run: cat test.json
