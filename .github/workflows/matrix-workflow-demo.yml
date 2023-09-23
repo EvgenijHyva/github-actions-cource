@@ -6,7 +6,7 @@ on:
       - dev
     paths:
       - ".github/workflows/matrix-workflow-demo.yml"
-      - "react_new/**"
+  workflow_dispatch:
 defaults:
   run:
     working-directory: ./react-new
@@ -14,14 +14,18 @@ env:
   working_directory: react-new
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12, 14, 16]
+        os: [ubuntu-20.04, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Get code
         uses: actions/checkout@v3
       - name: Install NodeJs
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: ${{ matrix.node-version }}
       - name: Cache dependecies
         uses: actions/cache@v3
         id: cache
