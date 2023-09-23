@@ -26,6 +26,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Output check
+        run: |
+          pwd
+          ls -la
+          node -v
       - name: Cache dependecies
         uses: actions/cache@v3
         id: cache
