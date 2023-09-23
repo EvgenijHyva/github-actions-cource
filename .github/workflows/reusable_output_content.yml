@@ -1,0 +1,21 @@
+name: Reusable Output content
+on:
+  workflow_call:
+    inputs:
+      os:
+        description: OS for execution workflow
+        type: string
+        default: ubuntu-latest
+jobs:
+  output-info:
+    runs-on: ${{ inputs.os }}
+    steps:
+      - name: Output content
+        if: failure() || success()
+        shell: bash
+        run: |
+          ls -la
+          pwd
+          lsb_release -a
+          uname -r
+        continue-on-error: true

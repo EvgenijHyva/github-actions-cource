@@ -1,0 +1,130 @@
+name: Deployment workflow
+on:
+  push:
+    branches:
+      - main
+      - dev
+    paths:
+      - "react_new/**"
+      - ".github/workflows/use_reusable_workflows.yml"
+  workflow_dispatch:
+env: # workflow env variables
+  working_directory: react_new
+  artifact-name: Build artifact
+  test-artifact: Tests report
+defaults:
+  run:
+    working-directory: ./react_new
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Cache dependecies
+        uses: actions/cache@v3
+        id: cache
+        with: # optimizations for faster execution (not global .npm just current node_modules)
+          path: ${{env.working_directory}}/node_modules
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Cache dependecies
+        uses: actions/cache@v3
+        id: cache
+        with: # optimizations for faster execution
+          path: ${{env.working_directory}}/node_modules
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Test
+        id: run-tests
+        run: npm run test
+      - name: Output content
+        if: failure() || success()
+        run: |
+          ls -la
+          pwd
+      - name: Upload test report # controll with if condition
+        uses: actions/upload-artifact@v3
+        if: failure() && steps.run-tests.outcome == 'failure'
+        with:
+          name: ${{env.test-artifact}}
+          path: ${{env.working_directory}}/test.json
+  build:
+    runs-on: ubuntu-latest
+    needs: [test, lint]
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Cache dependecies
+        uses: actions/cache@v3
+        id: cache
+        with: # optimizations for faster execution
+          path: ${{env.working_directory}}/node_modules
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Output content
+        run: |
+          ls -la
+          pwd
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.artifact-name }}
+          path: |
+            ${{env.working_directory}}/package.json
+            ${{env.working_directory}}/dist
+          retention-days: 1
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - name: Get artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.artifact-name }}
+      - name: Output content
+        run: |
+          ls -la
+          pwd
+      - name: Deployment
+        run: echo "deployment placeholder..."
+  report:
+    needs: test
+    runs-on: ubuntu-latest
+    if: failure() || cancelled()
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - name: Output github info
+        run: |
+          echo "Something went wrong"
+          echo "${{ toJson(github) }}"
+      - name: Upload report
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.test-artifact }}
+      - name: Output content
+        run: |
+          ls -la
+          pwd
+      - name: Output report info
+        run: cat test.json
