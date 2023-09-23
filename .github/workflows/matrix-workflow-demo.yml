@@ -7,9 +7,6 @@ on:
     paths:
       - ".github/workflows/matrix-workflow-demo.yml"
   workflow_dispatch:
-#defaults:
-#  run:
-#    working-directory: ./react-new
 env:
   working_directory: react-new
 jobs:
@@ -19,6 +16,9 @@ jobs:
         node-version: [12, 14, 16]
         os: [ubuntu-20.04, macos-latest]
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ${{ env.working_directory }}
     steps:
       - name: Get code
         uses: actions/checkout@v3
