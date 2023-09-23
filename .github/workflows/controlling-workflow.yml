@@ -21,10 +21,6 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
-      - name: Output content
-        run: |
-          ls -la
-          pwd
       - name: Cache dependecies
         uses: actions/cache@v3
         id: cache
@@ -34,10 +30,6 @@ jobs:
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
-      - name: Output content
-        run: |
-          ls -la
-          pwd
       - name: Lint
         run: npm run lint
   test:
