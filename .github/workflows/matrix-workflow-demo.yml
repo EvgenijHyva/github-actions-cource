@@ -1,0 +1,35 @@
+name: Matrix demo
+on:
+  push:
+    branches:
+      - main
+      - dev
+    paths:
+      - ".github/workflows/matrix-workflow-demo.yml"
+      - "react_new/**"
+defaults:
+  run:
+    working-directory: ./react-new
+env:
+  working_directory: react-new
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install NodeJs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - name: Cache dependecies
+        uses: actions/cache@v3
+        id: cache
+        with: # optimizations for faster execution (not global .npm just current node_modules)
+          path: ${{env.working_directory}}/node_modules
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Build
+        run: npm run build
