@@ -7,9 +7,9 @@ on:
     paths:
       - ".github/workflows/matrix-workflow-demo.yml"
   workflow_dispatch:
-defaults:
-  run:
-    working-directory: ./react-new
+#defaults:
+#  run:
+#    working-directory: ./react-new
 env:
   working_directory: react-new
 jobs:
