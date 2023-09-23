@@ -34,6 +34,10 @@ jobs:
       - name: Install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
+      - name: Output content
+        run: |
+          ls -la
+          pwd
       - name: Lint
         run: npm run lint
   test:
