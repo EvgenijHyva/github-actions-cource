@@ -24,10 +24,11 @@ jobs:
       - name: Cache dependecies
         uses: actions/cache@v3
         id: cache
-        with:
-          path: ~/.npm
+        with: # optimizations for faster execution (not global .npm just current node_modules)
+          path: node_modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Lint
         run: npm run lint
@@ -39,10 +40,11 @@ jobs:
       - name: Cache dependecies
         uses: actions/cache@v3
         id: cache
-        with:
-          path: ~/.npm
+        with: # optimizations for faster execution
+          path: node_modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Test
         id: run-tests
@@ -67,10 +69,11 @@ jobs:
       - name: Cache dependecies
         uses: actions/cache@v3
         id: cache
-        with:
-          path: ~/.npm
+        with: # optimizations for faster execution
+          path: node_modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Build
         run: npm run build
