@@ -11,7 +11,7 @@ env:
   MONGODB_DB_NAME: ${{ vars.MONGODB_DB_NAME }}
 jobs:
   test:
-    environment: Testing
+    environment: Testing-docker
     runs-on: ubuntu-latest
     defaults:
       run:
