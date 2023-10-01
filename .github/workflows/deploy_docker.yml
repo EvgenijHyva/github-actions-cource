@@ -13,6 +13,9 @@ jobs:
   test:
     environment: Testing
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: playwright
     container:
       image: node:16
     env:
