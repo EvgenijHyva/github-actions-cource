@@ -18,6 +18,12 @@ jobs:
         working-directory: playwright
     container:
       image: node:16
+    services: # images from docker (refering to documentaion of each "service" image)
+      mongodb-service:
+        image: mongo
+        env:
+          MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+          MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb+srv
       MONGODB_CLUSTER_ADDRESS: cluster0.tihhnqc.mongodb.net
