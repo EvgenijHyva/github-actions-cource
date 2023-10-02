@@ -30,6 +30,4 @@ runs:
     - name: Debug info
       shell: bash
       if: ${{ inputs.debug-info }} == 'true'
-      run: | 
-        pwd
-        ls -la
+      run: ls -la
