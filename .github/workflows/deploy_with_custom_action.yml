@@ -10,6 +10,7 @@ on:
 env: # workflow env variables
   working_directory: react_new
   test-artifact: test-results-report
+  artifact-name: build
 defaults:
   run:
     working-directory: react_new
@@ -50,13 +51,38 @@ jobs:
     needs: [lint, test]
     runs-on: ubuntu-latest
     steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Load & cache dependencies
+        uses: ./.github/actions/cached-deps
+        with:
+          working_directory: ${{env.working_directory}}
       - name: Build code
         run: npm run build
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.artifact-name }}
+          path: |
+            ${{env.working_directory}}/package.json
+            ${{env.working_directory}}/dist
+          retention-days: 1
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
     steps:
+      - name: Get artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.artifact-name }}
+      - name: Output content
+        run: |
+          ls -la
+          pwd
       - name: Deploy Placeholder
         run: echo "Deploying build..."
 
@@ -64,6 +90,21 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: failure() || cancelled()
+    defaults:
+      run:
+        working-directory: .
     steps:
-      - name: Reporting
-        run: echo "Report placeholder ..."
+      - name: Output github info
+        run: |
+          echo "Something went wrong"
+          echo "${{ toJson(github) }}"
+      - name: Upload report
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.test-artifact }}
+      - name: Output content
+        run: |
+          ls -la
+          pwd
+      - name: Output report info
+        run: cat test.json
