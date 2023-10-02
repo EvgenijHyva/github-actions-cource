@@ -1,0 +1,17 @@
+name: Deploy with Custom actions
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - dev
+    paths:
+      - ".github/workflows/deploy_with_custom_action.yml"
+env: # workflow env variables
+  working_directory: .
+defaults:
+  run:
+    working-directory: .
+jobs:
+  test:
+    runs-on: ubuntu-latest
