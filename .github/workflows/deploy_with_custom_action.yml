@@ -9,6 +9,7 @@ on:
       - ".github/workflows/deploy_with_custom_action.yml"
 env: # workflow env variables
   working_directory: react_new
+  test-artifact: test-results-report
 defaults:
   run:
     working-directory: react_new
@@ -20,15 +21,28 @@ jobs:
         uses: actions/checkout@v3
       - name: Load & cache dependencies
         uses: ./.github/actions/cached-deps
+        id: run-tests
         with:
           working_directory: ${{env.working_directory}}
           debug-info: true
       - name: Test code
         run: npm run test
+      - name: Publish Test Results
+        uses: actions/upload@v3
+        if: failure() && steps.run-tests.outcome == 'failure'
+        with:
+          name: ${{env.test-artifact}}
+          path: ${{env.working_directory}}/test.json
 
   lint:
     runs-on: ubuntu-latest
     steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Load & cache dependencies
+        uses: ./.github/actions/cached-deps
+        with:
+          working_directory: ${{env.working_directory}}
       - name: Lint Code
         run: npm run lint
 
