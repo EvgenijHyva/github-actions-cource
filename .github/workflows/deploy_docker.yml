@@ -28,8 +28,8 @@ jobs:
       MONGODB_CONNECTION_PROTOCOL: mongodb
       MONGODB_CLUSTER_ADDRESS: mongodb-service
       PORT: 8080
-      MONGODB_USERNAME: root
-      MONGODB_PASSWORD: example
+      MONGODB_USERNAME: ${{secrets.MONGODB_USERNAME}}
+      MONGODB_PASSWORD: ${{secrets.MONGODB_PASSWORD}}
     steps:
       - name: Get Code
         uses: actions/checkout@v3
