@@ -7,6 +7,7 @@ on:
       - "playwright/**"
       - ".github/workflows/deploy_docker.yml"
 env:
+  working_directory: playwright
   CACHE_KEY: node-deps
   MONGODB_DB_NAME: ${{ vars.MONGODB_DB_NAME }}
 jobs:
@@ -15,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: playwright
+        working-directory: ${{env.working_directory}}
     container:
       image: node:16
     services: # images from docker (refering to documentaion of each "service" image) work if job is goging in container
