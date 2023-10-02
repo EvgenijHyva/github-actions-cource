@@ -11,6 +11,10 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Chekout to working_directory
+      shell: bash
+      if: inputs.working_directory != './'
+      run: cd ${{ inputs.working_directory }}
     - name: Debug info
       shell: bash
       if: ${{ inputs.debug-info }} == 'true'
