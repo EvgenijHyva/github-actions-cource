@@ -11,13 +11,10 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Chekout to working_directory
-      shell: bash
-      if: inputs.working_directory != './'
-      run: cd ${{ inputs.working_directory }}
     - name: Debug info
       shell: bash
       if: ${{ inputs.debug-info }} == 'true'
+      working-directory: ${{ inputs.working_directory }}
       run: | 
         pwd
         ls -la
@@ -30,6 +27,7 @@ runs:
     - name: Install dependencies
       shell: bash
       if: steps.cache.outputs.cache-hit != 'true'
+      working-directory: ${{ inputs.working_directory }}
       run: npm ci
     - name: Debug info
       shell: bash
