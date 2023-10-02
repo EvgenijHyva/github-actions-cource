@@ -5,6 +5,7 @@ on:
       - main
     paths:
       - ".github/workflows/deploy_docker.yml"
+  workflow_dispatch:
 env:
   working_directory: playwright
   CACHE_KEY: node-deps
