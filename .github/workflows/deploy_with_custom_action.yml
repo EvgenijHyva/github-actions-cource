@@ -8,10 +8,41 @@ on:
     paths:
       - ".github/workflows/deploy_with_custom_action.yml"
 env: # workflow env variables
-  working_directory: .
+  working_directory: react_new
 defaults:
   run:
-    working-directory: .
+    working-directory: react_new
 jobs:
   test:
     runs-on: ubuntu-latest
+    steps:
+      - name: Test code
+        run: npm run test
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lint Code
+        run: npm run lint
+
+  build:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build code
+        run: npm run build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Placeholder
+        run: echo "Deploying build..."
+
+  report:
+    needs: test
+    runs-on: ubuntu-latest
+    if: failure() || cancelled()
+    steps:
+      - name: Reporting
+        run: echo "Report placeholder ..."
