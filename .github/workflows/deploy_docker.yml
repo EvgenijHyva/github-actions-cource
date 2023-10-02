@@ -17,17 +17,21 @@ jobs:
     defaults:
       run:
         working-directory: ${{env.working_directory}}
+    # Without container section is still possible to use services containers but then need to use HOST address 127.0.0.1 and port 27017 for mongo
     container:
       image: node:16
     services: # images from docker (refering to documentaion of each "service" image) work if job is goging in container
       mongodb-service:
         image: mongo
+        ports: # needs if running without container section
+          - 27017:27017
         env:
           MONGO_INITDB_ROOT_USERNAME: ${{env.MONGODB_USERNAME}}
           MONGO_INITDB_ROOT_PASSWORD: ${{env.MONGODB_PASSWORD}}
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb
       MONGODB_CLUSTER_ADDRESS: mongodb-service
+      MONGODB_CLUSTER_ADDRESS_WITHOUT_CONTAINER_SECTION: 127.0.0.1
       PORT: 8080
       MONGODB_USERNAME: ${{secrets.MONGODB_USERNAME}}
       MONGODB_PASSWORD: ${{secrets.MONGODB_PASSWORD}}
