@@ -18,15 +18,15 @@ jobs:
         working-directory: playwright
     container:
       image: node:16
-    services: # images from docker (refering to documentaion of each "service" image)
+    services: # images from docker (refering to documentaion of each "service" image) work if job is goging in container
       mongodb-service:
         image: mongo
         env:
           MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGODB_USERNAME }}
           MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
     env:
-      MONGODB_CONNECTION_PROTOCOL: mongodb+srv
-      MONGODB_CLUSTER_ADDRESS: cluster0.tihhnqc.mongodb.net
+      MONGODB_CONNECTION_PROTOCOL: mongodb
+      MONGODB_CLUSTER_ADDRESS: mongodb-service
       PORT: 8080
       MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
       MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
