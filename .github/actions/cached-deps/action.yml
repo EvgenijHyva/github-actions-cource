@@ -5,9 +5,18 @@ inputs:
   working_directory: 
     description: working_directory for execution
     default: ./
+  debug-info: 
+    description: debuging location and hashFiles
+    default: 'false'
 runs:
   using: 'composite'
   steps:
+    - name: Debug info
+      shell: bash
+      if: ${{ inputs.debug-info }} == 'true'
+      run: | 
+        pwd
+        ls -la
     - name: Cache dependecies
       uses: actions/cache@v3
       id: cache
@@ -18,3 +27,9 @@ runs:
       shell: bash
       if: steps.cache.outputs.cache-hit != 'true'
       run: npm ci
+    - name: Debug info
+      shell: bash
+      if: ${{ inputs.debug-info }} == 'true'
+      run: | 
+        pwd
+        ls -la
