@@ -61,7 +61,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{env.test_resilts_artifact}}
-          path: ${{env.working_directory}}/playwright-report
+          path: |
+            ${{env.working_directory}}/playwright-report
+            ${{env.working_directory}}/playwright.config.js
           retention-days: 1
           if-no-files-found: warn
   deploy:
