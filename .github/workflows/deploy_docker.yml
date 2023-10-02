@@ -35,6 +35,7 @@ jobs:
       PORT: 8080
       MONGODB_USERNAME: ${{secrets.MONGODB_USERNAME}}
       MONGODB_PASSWORD: ${{secrets.MONGODB_PASSWORD}}
+      test_resilts_artifact: report
     steps:
       - name: Get Code
         uses: actions/checkout@v3
@@ -53,7 +54,16 @@ jobs:
         run: npm test
       - name: Output info
         run: |
+          pwd
+          ls -la
           echo "MONGODB_USERNAME: $MONGODB_USERNAME"
+      - name: Upload Test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{env.test_resilts_artifact}}
+          path: ${{env.working_directory}}/playwright-report
+          retention-days: 1
+          if-no-files-found: warn
   deploy:
     needs: test
     runs-on: ubuntu-latest
