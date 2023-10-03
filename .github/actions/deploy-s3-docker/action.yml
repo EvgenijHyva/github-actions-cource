@@ -1,0 +1,5 @@
+name: Deploy To AWS S3 (Docker)
+description: Deploy a static website via AWS S3 in docker container.
+runs:
+  using: docker
+  image: Dockerfile
