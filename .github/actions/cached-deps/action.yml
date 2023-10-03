@@ -43,7 +43,7 @@ runs:
       id: install
       run: |
         echo "cache-used='${{ inputs.caching }}' >> $GITHUB_OUTPUT"
-        echo "${{ toJson(GITHUB_OUTPUT) }}"
+        echo "$GITHUB_OUTPUT"
     - name: Debug info
       shell: bash
       working-directory: ${{ inputs.working_directory }}
