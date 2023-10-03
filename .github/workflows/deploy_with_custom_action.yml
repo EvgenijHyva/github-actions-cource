@@ -78,6 +78,8 @@ jobs:
       run:
         working-directory: .
     steps:
+      - name: Get Code
+        uses: actions/checkout@v3
       - name: Get artifact
         uses: actions/download-artifact@v3
         with:
