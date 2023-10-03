@@ -14,6 +14,11 @@ const run = () => {
 	const s3Uri = `s3://${bucket}`;
 	// `aws s3 sync <local-folder> <s3-bucket>`
 	exec.exec(`aws s3 sync ${artifact} ${s3Uri} --region ${region}`); // syncronize the folder
+
+	const config = exec.exec(`aws s3api get-bucket-website --bucket ${bucket}`);
+	core.notice(`Deployed website configurations: ${config}`);
+	const endpoint = JSON.parse(config).Endpoint;
+	core.notice(`Website is awailable on url:\n ${endpoint}`);
 	core.notice("Finish workflow");
 }
 
