@@ -114,5 +114,7 @@ jobs:
   information:
     runs-on: ubuntu-latest
     steps:
+      - name: Get artifact
+        uses: actions/download-artifact@v3
       - name: Run custom action
         uses: ./.github/actions/deploy-s3-javascript
