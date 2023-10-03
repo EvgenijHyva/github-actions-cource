@@ -5,6 +5,7 @@ const exec = require('@actions/exec');
 
 const run = () => {
 	core.notice("Starting run workflow");
+	// Get input values
 	
 
 }
