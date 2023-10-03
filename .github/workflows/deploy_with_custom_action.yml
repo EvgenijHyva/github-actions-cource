@@ -73,6 +73,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    environment: PROD
     defaults:
       run:
         working-directory: .
@@ -86,7 +87,9 @@ jobs:
           ls -la
           pwd
       - name: Deploy Placeholder
-        run: echo "Deploying build..."
+        uses: ./.github/actions/deploy-s3-javascript
+        with:
+          bucket: ${{ vars.AWS_S3_BUCKET }}
 
   report:
     needs: test
@@ -110,14 +113,3 @@ jobs:
           pwd
       - name: Output report info
         run: cat test.json
-
-  information:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: .
-    steps:
-      - name: Get Code
-        uses: actions/checkout@v3
-      - name: Run custom action
-        uses: ./.github/actions/deploy-s3-javascript
