@@ -119,5 +119,7 @@ jobs:
     steps:
       - name: Get artifact
         uses: actions/download-artifact@v3
+      - name: Output
+        run: ls -la
       - name: Run custom action
         uses: ./.github/actions/deploy-s3-javascript
