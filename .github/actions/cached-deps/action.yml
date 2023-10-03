@@ -38,9 +38,10 @@ runs:
       id: installation
       if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true'
       working-directory: ${{ inputs.working_directory }}
-      run: |
-        npm ci
-        echo "cache='${{ inputs.caching }}' >> $GITHUB_OUTPUT"
+      run: npm ci
+    - name: Create output
+      shell: bash
+      run: echo "cache='${{ inputs.caching }}' >> $GITHUB_OUTPUT"
     - name: Debug info
       shell: bash
       working-directory: ${{ inputs.working_directory }}
