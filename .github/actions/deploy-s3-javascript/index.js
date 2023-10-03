@@ -17,8 +17,8 @@ const run = async () => {
 
 	core.notice(`result:${result}`);
 
-	const resultConf = await exec.exec(`aws s3api get-bucket-website --bucket ${bucket}`);
-	core.notice(`Config: ${resultConf}`)
+	//const resultConf = await exec.exec(`aws s3api get-bucket-website --bucket ${bucket}`);
+	//core.notice(`Config: ${resultConf}`)
 
 	core.notice("Finish workflow");
 }
