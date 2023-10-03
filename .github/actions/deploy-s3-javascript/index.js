@@ -15,7 +15,11 @@ const run = async () => {
 	// `aws s3 sync <local-folder> <s3-bucket>`
 	const result = await exec.exec(`aws s3 sync ${artifact} ${s3Uri} --region ${region}`); // syncronize the folder
 
-	core.notice(result);
+	core.notice(`result:${result}`);
+
+	const resultConf = await exec.exec(`aws s3api get-bucket-website --bucket ${bucket}`);
+	core.notice(`Config: ${resultConf}`)
+
 	core.notice("Finish workflow");
 }
 
