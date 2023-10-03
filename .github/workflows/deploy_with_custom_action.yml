@@ -26,6 +26,8 @@ jobs:
         with:
           working_directory: ${{env.working_directory}}
           debug-info: true
+      - name: Output Information
+        run: echo "Chacke state=${{ steps.run-tests.outputs.used-cache }}"
       - name: Test code
         run: npm run test
       - name: Publish Test Results
