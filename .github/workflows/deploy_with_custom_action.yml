@@ -95,11 +95,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         with:
           bucket: ${{ vars.AWS_S3_BUCKET }}
-      - name: Check website config
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: aws s3api get-bucket-website --bucket ${{ vars.AWS_S3_BUCKET }}
 
   report:
     needs: test
