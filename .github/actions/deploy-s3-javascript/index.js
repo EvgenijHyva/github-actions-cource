@@ -14,7 +14,7 @@ const run = async () => {
 	// `aws s3 sync <local-folder> <s3-bucket>`
 	await exec.exec(`aws s3 sync ${artifact} ${s3Uri} --region ${region}`); // syncronize the folder
 
-	const websiteUrl = `http://${bucket}.s3-website-${region}.amazonaws.com`;
+	const websiteUrl = `http://${bucket}.s3-website.${region}.amazonaws.com`;
 	core.setOutput('website-url', websiteUrl);
 	core.notice(`Finishing workflow. Website Url: ${websiteUrl}`);
 }

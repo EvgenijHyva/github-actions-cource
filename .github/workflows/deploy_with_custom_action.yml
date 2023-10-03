@@ -96,9 +96,10 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         with:
           bucket: ${{ vars.AWS_S3_BUCKET }}
+          bucket-region: "eu-central-1"
       - name: Output result
         run: |
-          echo: "Live URL: ${{ steps.publish-build.outputs.website-url }}"
+          echo "Live URL: ${{ steps.publish-build.outputs.website-url }}"
   report:
     needs: test
     runs-on: ubuntu-latest
