@@ -12,7 +12,9 @@ inputs:
     description: The folder containing build for Deploy, by default used 'dist' folder
     required: false
     default: dist
-
+outputs:
+  website-url:
+    description: Url of the deployed website
 runs:
   using: 'node16'
   main: 'index.js'

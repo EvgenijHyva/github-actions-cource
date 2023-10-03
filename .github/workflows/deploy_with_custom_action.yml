@@ -89,13 +89,16 @@ jobs:
           ls -la
           pwd
       - name: Deploy Website
+        id: publish-build
         uses: ./.github/actions/deploy-s3-javascript
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         with:
           bucket: ${{ vars.AWS_S3_BUCKET }}
-
+      - name: Output result
+        run: |
+          echo: "Live URL: ${{ steps.publish-build.outputs.website-url }}"
   report:
     needs: test
     runs-on: ubuntu-latest
