@@ -41,7 +41,7 @@ runs:
     - name: Create output
       shell: bash
       id: install
-      run: echo "cache-used='${{ inputs.caching }}' >> $GITHUB_ENV"
+      run: echo "cache-used='${{ inputs.caching }}' >> $GITHUB_OUTPUT" ';'
     - name: Debug info
       shell: bash
       working-directory: ${{ inputs.working_directory }}
