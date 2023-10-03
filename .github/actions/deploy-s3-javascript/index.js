@@ -13,8 +13,9 @@ const run = async () => {
 	// Upload files (can be used Amazon-SDK or execute aws command)
 	const s3Uri = `s3://${bucket}`;
 	// `aws s3 sync <local-folder> <s3-bucket>`
-	await exec.exec(`aws s3 sync ${artifact} ${s3Uri} --region ${region}`); // syncronize the folder
-	
+	const result = await exec.exec(`aws s3 sync ${artifact} ${s3Uri} --region ${region}`); // syncronize the folder
+
+	core.notice(result);
 	core.notice("Finish workflow");
 }
 
