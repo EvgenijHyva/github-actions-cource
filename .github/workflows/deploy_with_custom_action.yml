@@ -117,4 +117,4 @@ jobs:
       - name: Get artifact
         uses: actions/download-artifact@v3
       - name: Run custom action
-        uses: ./.github/actions/deploy-s3-javascript/action.yml
+        uses: ./.github/actions/deploy-s3-javascript
