@@ -1,0 +1,22 @@
+{
+  "name": "deploy-s3-javascript",
+  "version": "1.0.0",
+  "description": "github-action-cource-code just make some fun. Using github actions toolkit (https://github.com/actions/toolkit)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "github",
+    "github-actions",
+    "action",
+    "github-actions-cource"
+  ],
+  "author": "Evgeny Hyvärinen",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@actions/exec": "^1.1.1",
+    "@actions/github": "^5.1.1"
+  }
+}
