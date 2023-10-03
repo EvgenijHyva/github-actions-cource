@@ -16,6 +16,9 @@ outputs:
   used-cache:
     description: Whether the cache was used.
     value: ${{ steps.install.outputs.cache-used }}
+  debug-used:
+    description: Whether the debug was used.
+    value: ${{ steps.install.outputs.debug }}
 runs:
   using: 'composite'
   steps:
@@ -41,7 +44,9 @@ runs:
     - name: Create output
       shell: bash
       id: install
-      run: echo "cache-used='${{ inputs.caching }}'" >> $GITHUB_OUTPUT
+      run: |
+        echo "cache-used='${{ inputs.caching }}'" >> $GITHUB_OUTPUT
+        echo "debug='${{inputs.debug-info}}'" >> $GITHUB_OUTPUT
     - name: Debug info
       shell: bash
       working-directory: ${{ inputs.working_directory }}
