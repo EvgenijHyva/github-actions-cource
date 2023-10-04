@@ -1,5 +1,9 @@
 name: Handle issues
-on: issues
+on:
+  issues:
+    types:
+      - labeled
+
 jobs:
   info-output:
     runs-on: ubuntu-20.04
