@@ -1,5 +1,22 @@
 name: Deploy To AWS S3 (Docker)
 description: Deploy a static website via AWS S3 in docker container.
+inputs:
+  # inputs for deploy in AWS
+  bucket:
+    description: The S3 bucket to be upload
+    required: true
+  bucket-region:
+    description: The S3 bucket region, used default 'us-east-1'
+    required: false
+    default: 'us-east-1'
+  dist-folder:
+    description: The folder containing build for Deploy, by default used 'dist' folder
+    required: false
+    default: dist
+outputs:
+  website-url:
+    description: Url of the deployed website
 runs:
   using: docker
-  image: Dockerfile
+  image: Dockerfile 
+  # image can be also in docker public repo
