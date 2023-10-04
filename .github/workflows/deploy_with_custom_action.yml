@@ -100,6 +100,39 @@ jobs:
       - name: Output result
         run: |
           echo "Live URL: ${{ steps.publish-build.outputs.website-url }}"
+
+  deploy-container:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: PROD
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Get artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.artifact-name }}
+      - name: Output content
+        run: |
+          ls -la
+          pwd
+      - name: Deploy Website
+        id: publish-build-in-container
+        uses: ./.github/actions/deploy-s3-docker
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        with:
+          bucket: ${{ vars.AWS_S3_BUCKET }}
+          bucket-region: ${{ vars.AWS_S3_BUCKET_REGION }}
+      - name: Output result
+        run: |
+          echo "Deployed container in region: ${{vars.AWS_S3_BUCKET_REGION}}, bucket: ${{ vars.AWS_S3_BUCKET}}"
+          echo "Live URL: ${{ steps.publish-build-in-container.outputs.website-url }}"
+
   report:
     needs: test
     runs-on: ubuntu-latest
