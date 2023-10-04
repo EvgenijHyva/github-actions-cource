@@ -6,6 +6,8 @@ on:
       - reopened
 jobs:
   assign-label:
+    permissions:
+      issues: write
     runs-on: ubuntu-20.04
     steps:
       - name: Assign Label
@@ -15,6 +17,7 @@ jobs:
           --url https://api.github.com/repos/ ${{ github.repository }}/issues/ ${{ github.event.issue.number }}/labels \
           -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           -H 'content-type: application/json' \
+          -H 'X-GitHub-Api-Version: 2022-11-28' \
           -d '{
               "labels": ["bug"]
               }' \
