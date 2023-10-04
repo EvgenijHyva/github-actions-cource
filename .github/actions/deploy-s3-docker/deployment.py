@@ -12,7 +12,7 @@ def run():
 
     configuration = Config(region_name=bucket_region)
 
-    s3_client = boto3.client('s3', config=configuration)
+    s3_client = boto3.client('s3', config=configuration) # check for env AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
 
     for root, subdirs, files in os.walk(dist_folder):
         for file in files:
