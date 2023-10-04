@@ -130,7 +130,7 @@ jobs:
           bucket-region: ${{ vars.AWS_S3_BUCKET_REGION }}
       - name: Output result
         run: |
-          echo "Deployed container in region: ${{vars.AWS_S3_BUCKET_REGION}}, bucket: ${{ vars.AWS_S3_BUCKET}}"
+          echo "Deployed container in region: ${{ vars.AWS_S3_BUCKET_REGION }}, bucket: ${{ vars.AWS_S3_BUCKET}}"
           echo "Live URL: ${{ steps.publish-build-in-container.outputs.website-url }}"
 
   report:
