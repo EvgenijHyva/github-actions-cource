@@ -96,15 +96,16 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         with:
           bucket: ${{ vars.AWS_S3_BUCKET }}
-          bucket-region: "eu-central-1"
+          bucket-region: ${{ vars.AWS_S3_BUCKET_REGION }}
       - name: Output result
         run: |
+          echo "Deployed container in region: ${{ vars.AWS_S3_BUCKET_REGION }}, bucket: ${{ vars.AWS_S3_BUCKET}}"
           echo "Live URL: ${{ steps.publish-build.outputs.website-url }}"
 
   deploy-container:
     needs: build
     runs-on: ubuntu-latest
-    environment: PROD
+    environment: PROD-Docker
     defaults:
       run:
         working-directory: .
